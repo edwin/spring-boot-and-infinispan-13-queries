@@ -46,6 +46,20 @@ public class User implements Serializable {
 }
 ```
 
+## Do Queries
+```java
+    public List<User> getUsersFromCity(String address) {
+        RemoteCache remoteCache = remoteCacheManager.getCache("user-cache");
+        QueryFactory queryFactory = Search.getQueryFactory(remoteCache);
+
+        Query<User> query = queryFactory.create("FROM user.User WHERE address like :address ORDER BY name ASC, age DESC");
+        query.setParameter("address", address);
+
+        return query.execute().list();
+    }
+}
+```
+
 ## Indexed Cache
 an indexed cache would give below result on the `Query Statistic` page,
 ![indexed query](image/infinispan-indexed.png)
