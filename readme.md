@@ -33,3 +33,19 @@ $ docker run -p 11222:11222 -e USER=admin -e PASS=password \
     </indexing>
 </replicated-cache>
 ```
+
+## Setting-Up Index
+Setting-up `@ProtoDoc` annotation would make our cache is `indexed`.
+```java
+@ProtoDoc("@Indexed")
+public class User implements Serializable {
+
+    @ProtoField(number = 1, required = true)
+    @ProtoDoc("@Field(index=Index.YES, analyze = Analyze.NO, store = Store.YES)")
+    protected String name;
+}
+```
+
+## Indexed Cache
+an indexed cache would give below result on the `Query Statistic` page,
+![indexed query](image/infinispan-indexed.png)

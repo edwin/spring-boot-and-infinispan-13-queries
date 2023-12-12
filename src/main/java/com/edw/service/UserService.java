@@ -1,9 +1,16 @@
 package com.edw.service;
 
 import com.edw.bean.User;
+import org.infinispan.Cache;
+import org.infinispan.client.hotrod.RemoteCache;
 import org.infinispan.client.hotrod.RemoteCacheManager;
+import org.infinispan.client.hotrod.Search;
+import org.infinispan.query.dsl.Query;
+import org.infinispan.query.dsl.QueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <pre>
@@ -33,5 +40,15 @@ public class UserService {
         return (User) remoteCacheManager
                 .getCache("user-cache")
                 .put(name, new User(name, age, address));
+    }
+
+    public List<User> getUsersFromCity(String address) {
+        RemoteCache remoteCache = remoteCacheManager.getCache("user-cache");
+        QueryFactory queryFactory = Search.getQueryFactory(remoteCache);
+
+        Query<User> query = queryFactory.create("FROM user.User WHERE address like :address ORDER BY name ASC, age DESC");
+        query.setParameter("address", address);
+
+        return query.execute().list();
     }
 }

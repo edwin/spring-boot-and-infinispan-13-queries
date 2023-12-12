@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * <pre>
  *     com.edw.controller.IndexController
@@ -35,5 +37,10 @@ public class IndexController {
                         @RequestParam Integer age,
                         @RequestParam String address) {
         return userService.addUser(name, age, address);
+    }
+
+    @GetMapping(path = "/get-users-from-city")
+    public List<User> getUsersFromCity(@RequestParam String address) {
+        return userService.getUsersFromCity(address);
     }
 }

@@ -1,7 +1,5 @@
 package com.edw.bean;
 
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 import org.infinispan.protostream.annotations.ProtoDoc;
 import org.infinispan.protostream.annotations.ProtoField;
 
@@ -15,22 +13,19 @@ import java.io.Serializable;
  * @author Muhammad Edwin < edwin at redhat dot com >
  * 12 Des 2023 14:06
  */
-@ProtoDoc("@Indexed(index=\"index01\")")
-@Indexed
+@ProtoDoc("@Indexed")
 public class User implements Serializable {
 
     @ProtoField(number = 1, required = true)
-    @ProtoDoc("@Field(index=Index.YES, analyze = Analyze.YES, store = Store.NO)")
-    @KeywordField
+    @ProtoDoc("@Field(index=Index.YES, analyze = Analyze.NO, store = Store.YES)")
     protected String name;
 
     @ProtoField(number = 2)
-    @ProtoDoc("@Field(index=Index.YES, analyze = Analyze.YES, store = Store.NO)")
+    @ProtoDoc("@Field(index=Index.YES, analyze = Analyze.NO, store = Store.YES)")
     protected Integer age;
 
     @ProtoField(number = 3)
-    @ProtoDoc("@Field(index=Index.YES, analyze = Analyze.YES, store = Store.NO)")
-    @KeywordField
+    @ProtoDoc("@Field(index=Index.YES, analyze = Analyze.NO, store = Store.YES)")
     protected String address;
 
     public User() {
